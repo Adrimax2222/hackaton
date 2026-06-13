@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario Básico</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="contenedor-formulario">
+        <h2>Formulari - Adrià</h2>
+        <p class="subtitulo">Completa els teus dades per començar.</p>
+        
+        <form action="#" method="POST">
+            
+            <div class="campo-mitad">
+                <label>Nombre</label>
+                <input type="text" name="nombre" placeholder="Tu nombre" required>
+            </div>
+            
+            <div class="campo-mitad segundo-campo">
+                <label>Teléfono</label>
+                <input type="tel" name="telefono" placeholder="Ej. 600000000">
+            </div>
+
+            <div class="campo-mitad">
+                <label>Email</label>
+                <input type="email" name="correo" placeholder="tu@correo.com" required>
+            </div>
+            
+            <div class="campo-mitad segundo-campo">
+                <label>Interés principal</label>
+                <select name="interes" required>
+                    <option value="">Elige uno...</option>
+                    <option value="diseno">Diseño Web</option>
+                    <option value="desarrollo">Programación</option>
+                    <option value="marketing">Marketing</option>
+                </select>
+            </div>
+
+            <div class="campo-completo">
+                <label>Cuéntanos sobre ti</label>
+                <textarea name="mensaje" rows="3" placeholder="Escribe tus comentarios aquí..."></textarea>
+            </div>
+
+            <div class="campo-checkbox">
+                <input type="checkbox" name="terminos" required>
+                <label>Acepto los términos y condiciones</label>
+            </div>
+
+            <button type="submit">Enviar Registro</button>
+            
+        </form>
+    </div>
+
+</body>
+</html>

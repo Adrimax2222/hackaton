@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba Hackathon</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #f0f4f8; padding: 50px; }
+        .contenedor { background: white; padding: 30px; border-radius: 15px; box-shadow: 0px 4px 10px rgba(0,0,0,0.1); display: inline-block; }
+        .pictograma { font-size: 80px; margin: 20px; }
+        button { background-color: #007bff; color: white; border: none; padding: 15px 30px; font-size: 18px; margin: 10px; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+        button:hover { background-color: #0056b3; }
+        h2 { color: #333; }
+    </style>
+</head>
+<body>
+
+    <div class="contenedor">
+        <h2>{{ mensaje }}</h2>
+        
+        <div class="pictograma">😊</div>
+
+        <form action="/comprobar" method="POST">
+            <button type="submit" name="emocion" value="Tristeza">Tristeza 😢</button>
+            <button type="submit" name="emocion" value="Alegria">Alegría 😄</button>
+            <button type="submit" name="emocion" value="Enfado">Enfado 😡</button>
+        </form>
+    </div>
+
+</body>
+</html>

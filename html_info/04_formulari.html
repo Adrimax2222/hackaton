@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulari amb HTML</title>
+</head>
+
+
+
+<body> <!--Inici del cos, creació d'un formulari amb HTML-->
+<div id=""formulari" class=""formulari" style="background-color: #e67171; padding: 20px; border-radius: 10px; width: 400px; margin: auto;">
+    <!--ID es un identificador unic a tota la pagina-->
+    <!--Class es un identificador que pot ser compartit per diferents elements de la pagina-->
+    <h1>Formularis amb HTML</h1>
+    <p>Aquest és un exemple de pàgina web amb formularis.</p>
+
+    <form action="resultats.html">
+        <!--Creació d'un formulari amb diferents tipus de camps d'entrada-->
+        <label for="nomusuari">Nom Usuari:</label>
+        <input type="text" id="nomusuari" placeholder="Introdueix el teu nom" required><br><br>
+
+        <label for="edatusuari">Edat Usuari:</label>
+        <input type="number" id="edatusuari" placeholder="Introdueix la teva edat" required><br><br>
+
+        <label for="datanaixement">Data de naixement:</label>
+        <input type="date" id="datanaixement" placeholder="Selecciona la teva data de naixement"><br><br>
+
+        <label for="email">Correu electrònic:</label>
+        <input type="email" id="email" placeholder="Introdueix el teu correu electrònic" required><br><br>
+
+        <label for="contrasenya">Contrasenya:</label>
+        <input type="password" id="contrasenya" placeholder="contrasenya" required><br><br>
+
+        <label for="comentaris">Comentaris:</label>
+        <textarea id="comentaris" placeholder="Introdueix els teus comentaris"></textarea><br><br>
+
+        <button type="reset">Esborrar</button>
+        <button type="submit">Enviar</button>
+
+    </form> 
+</div>
+</body>
+</html>
