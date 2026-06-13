@@ -1,7 +1,6 @@
 # Asteroid Belt Run
 
 Juego educativo interactivo desarrollado para la **Hackathon Hack the Future 2026**, organizada por DEQ4Future, powered by Codelearn y con la colaboración del Ajuntament de Sabadell.
-Realizado por Adrià Navarro i Aleix Pascual
 
 ---
 
@@ -49,6 +48,8 @@ El reto: diseñar y construir en un solo día un juego educativo funcional enfoc
 
 Sin frameworks. Sin dependencias. Código básico y accesible.
 
+> El proyecto incluye un archivo `app.py` de Flask creado durante el desarrollo inicial, pero el juego final funciona completamente en el navegador mediante Live Server, sin necesidad de servidor Python.
+
 ---
 
 ## Estructura del proyecto
@@ -57,31 +58,40 @@ Sin frameworks. Sin dependencias. Código básico y accesible.
 HACKATON/
   static/
     media/
-      fondo.png
-      intro.png
-      tablero.png
-      nave.png / nave2.png / nave1.png / nave0.png
-      gameover.png
-      llegaste.png
-      ambiente.mp3
-      boton.mp3
       lectura/
+        game_over.mp3
         inicio.mp3
         intro_1.mp3
         intro_2.mp3
         jugar.mp3
-        normas.mp3
-        pregunta_1.mp3 ... pregunta_6.mp3
-        motor.mp3
-        game_over.mp3
         llegaste.mp3
-    style.css
+        motor.mp3
+        normas.mp3
+        pregunta_1.mp3
+        pregunta_2.mp3
+        pregunta_3.mp3
+        pregunta_4.mp3
+        pregunta_5.mp3
+        pregunta_6.mp3
+      ambiente.mp3
+      click.mp3
+      fondo.png
+      gameover.png
+      intro.png
+      llegaste.png
+      nave.png
+      nave0.png
+      nave1.png
+      nave2.png
+      tablero.png
     intro.css
+    style.css
     tablero.css
   templates/
-    juego.html       ← menú principal y accesibilidad
-    intro.html       ← introducción animada
-    tablero.html     ← tablero de juego y quizzes
+    intro.html        ← introducción animada
+    juego.html        ← menú principal y accesibilidad
+    tablero.html      ← tablero de juego y quizzes
+  app.py
 ```
 
 ---
