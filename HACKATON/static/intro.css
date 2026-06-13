@@ -1,0 +1,57 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: sans-serif;
+}
+
+.pantalla-historia {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-image: url('/static/media/intro.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.texto-subiendo {
+    position: absolute;
+    width: 70%;
+    color: white;
+    font-size: 22px;
+    text-align: center;
+    font-weight: bold;
+    text-shadow: 2px 2px 5px black;
+    animation: moverArriba 12s linear forwards;
+}
+
+// Solo el segundo bloque necesita animación al ser inyectado
+.texto-subiendo.animado {
+    animation: moverArriba 12s linear forwards;
+}
+
+@keyframes moverArriba {
+    0% { top: 100%; transform: translateY(0%); }
+    100% { top: 0%; transform: translateY(-120%); }
+}
+
+.btn-ir-juego {
+    background-color: #DC4900;
+    color: white;
+    border: 2px solid white;
+    padding: 10px 30px;
+    font-size: 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.filtro-daltonismo {
+    filter: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><filter id="d"><feColorMatrix type="matrix" values="0.43, 0.72, -0.15, 0, 0  0.34, 0.57, 0.09, 0, 0  -0.02, 0.03, 1.00, 0, 0  0, 0, 0, 1, 0"/></filter></svg>#d') !important;
+}

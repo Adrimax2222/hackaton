@@ -2,30 +2,79 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prueba Hackathon</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #f0f4f8; padding: 50px; }
-        .contenedor { background: white; padding: 30px; border-radius: 15px; box-shadow: 0px 4px 10px rgba(0,0,0,0.1); display: inline-block; }
-        .pictograma { font-size: 80px; margin: 20px; }
-        button { background-color: #007bff; color: white; border: none; padding: 15px 30px; font-size: 18px; margin: 10px; border-radius: 8px; cursor: pointer; transition: 0.2s; }
-        button:hover { background-color: #0056b3; }
-        h2 { color: #333; }
-    </style>
+    <title>Asteroid Belt Run - Menú</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
-    <div class="contenedor">
-        <h2>{{ mensaje }}</h2>
-        
-        <div class="pictograma">😊</div>
+    <div id="pantalla-principal" class="pantalla-inicio">
 
-        <form action="/comprobar" method="POST">
-            <button type="submit" name="emocion" value="Tristeza">Tristeza 😢</button>
-            <button type="submit" name="emocion" value="Alegria">Alegría 😄</button>
-            <button type="submit" name="emocion" value="Enfado">Enfado 😡</button>
-        </form>
+        <button class="btn btn-accesibilidad" id="abrir-menu">
+            ♿ Accesibilidad
+        </button>
+
+        <a href="/intro">
+            <button class="btn btn-empezar">
+                🚀 Empezar Misión
+            </button>
+        </a>
+
+        <div id="ventana-opciones">
+            <div class="caja-menu">
+                <h3>Opciones</h3>
+                <hr>
+                <div class="fila">
+                    <label>🗣️ Sonido</label>
+                    <input type="checkbox" id="opcion-sonido">
+                </div>
+                <div class="fila">
+                    <label>👁️ Daltonismo</label>
+                    <input type="checkbox" id="opcion-daltonismo">
+                </div>
+                <button id="cerrar-menu" class="btn-cerrar">Guardar</button>
+            </div>
+        </div>
+
     </div>
 
+    <script>
+        const botonAbrir = document.getElementById('abrir-menu');
+        const botonCerrar = document.getElementById('cerrar-menu');
+        const ventana = document.getElementById('ventana-opciones');
+        const fondo = document.getElementById('pantalla-principal');
+        const checkDaltonismo = document.getElementById('opcion-daltonismo');
+        const checkSonido = document.getElementById('opcion-sonido');
+
+        if (localStorage.getItem('daltonismo') === 'activo') {
+            fondo.classList.add('filtro-daltonismo');
+            checkDaltonismo.checked = true;
+        }
+
+        botonAbrir.onclick = function() {
+            ventana.style.display = 'flex';
+        }
+
+        botonCerrar.onclick = function() {
+            ventana.style.display = 'none';
+        }
+
+        checkDaltonismo.onchange = function() {
+            if (checkDaltonismo.checked) {
+                fondo.classList.add('filtro-daltonismo');
+                localStorage.setItem('daltonismo', 'activo');
+            } else {
+                fondo.classList.remove('filtro-daltonismo');
+                localStorage.setItem('daltonismo', 'inactivo');
+            }
+        }
+
+        checkSonido.onchange = function() {
+            fetch('/guardar_tts', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ tts_activo: checkSonido.checked })
+            });
+        }
+    </script>
 </body>
 </html>

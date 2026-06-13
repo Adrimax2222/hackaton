@@ -1,24 +1,27 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
+sonido_activado = False
+
+# 1. Ruta para la primera pantalla (Menú)
 @app.route('/')
 def inicio():
-    # Esta función carga la página web por primera vez
-    return render_template('juego.html', mensaje="¿Qué emoción representa este pictograma? 🤔")
+    return render_template('juego.html')
 
-@app.route('/comprobar', methods=['POST'])
-def comprobar():
-    # Aquí llega la respuesta cuando el usuario pulsa un botón
-    boton_pulsado = request.form.get('emocion')
-    
-    # La respuesta correcta es Alegría (porque mostraremos una cara sonriente)
-    if boton_pulsado == "Alegria":
-        resultado = "¡Correcto! 🎉 La comunicación visual nos ayuda a entendernos mejor."
-    else:
-        resultado = "¡Casi! Intentándolo de nuevo seguro que lo aciertas. 💪"
-        
-    return render_template('juego.html', mensaje=resultado)
+# 2. Ruta para la segunda pantalla (Historia)
+@app.route('/intro')
+def historia():
+    return render_template('intro.html')
+
+# Guardar la opción del sonido
+@app.route('/guardar_tts', methods=['POST'])
+def guardar_tts():
+    global sonido_activado
+    datos = request.get_json()
+    sonido_activado = datos.get('tts_activo')
+    print("¿Sonido activado?:", sonido_activado)
+    return jsonify({"status": "ok"})
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,0 +1,91 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: sans-serif;
+}
+
+.pantalla-inicio {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-image: url('/static/media/fondo.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.btn {
+    position: absolute;
+    background-color: #DC4900;
+    color: white;
+    border: 2px solid white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    background-color: #ff5500;
+}
+
+.btn-accesibilidad {
+    top: 5%;
+    left: 4%;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.btn-empezar {
+    bottom: 16%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 60px;
+    font-size: 20px;
+    border-radius: 30px;
+}
+
+#ventana-opciones {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.caja-menu {
+    background-color: #1a1a24;
+    border: 2px solid #DC4900;
+    padding: 25px;
+    border-radius: 15px;
+    width: 300px;
+    color: white;
+}
+
+.fila {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.btn-cerrar {
+    background: white;
+    color: black;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.filtro-daltonismo {
+    filter: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><filter id="d"><feColorMatrix type="matrix" values="0.43, 0.72, -0.15, 0, 0  0.34, 0.57, 0.09, 0, 0  -0.02, 0.03, 1.00, 0, 0  0, 0, 0, 1, 0"/></filter></svg>#d') !important;
+}
