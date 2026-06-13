@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Asteroid Belt Run - Tablero</title>
+    <link rel="stylesheet" href="../static/tablero.css">
+</head>
+<body>
+
+    <div id="pantalla-tablero" class="pantalla-tablero">
+
+        <div class="asteroide" id="a1" onclick="abrirQuiz(1)">
+            <span class="num-asteroide">CP-1738</span>
+            <span class="pill" id="pill-1">Bloqueado</span>
+        </div>
+        <div class="asteroide" id="a2" onclick="abrirQuiz(2)">
+            <span class="num-asteroide">CP-2291</span>
+            <span class="pill" id="pill-2">Bloqueado</span>
+        </div>
+        <div class="asteroide" id="a3" onclick="abrirQuiz(3)">
+            <span class="num-asteroide">CP-3047</span>
+            <span class="pill" id="pill-3">Bloqueado</span>
+        </div>
+        <div class="asteroide" id="a4" onclick="abrirQuiz(4)">
+            <span class="num-asteroide">CP-4512</span>
+            <span class="pill" id="pill-4">Bloqueado</span>
+        </div>
+        <div class="asteroide" id="a5" onclick="abrirQuiz(5)">
+            <span class="num-asteroide">CP-5803</span>
+            <span class="pill" id="pill-5">Bloqueado</span>
+        </div>
+        <div class="asteroide" id="a6" onclick="abrirQuiz(6)">
+            <span class="num-asteroide">CP-6190</span>
+            <span class="pill" id="pill-6">Bloqueado</span>
+        </div>
+
+        <img id="nave-vidas" src="../static/media/nave.png" alt="nave">
+
+    </div>
+
+    <div id="overlay-quiz">
+        <div class="caja-quiz">
+            <h2 id="pregunta-texto"></h2>
+            <div id="opciones"></div>
+            <div id="mensaje-resultado"></div>
+            <button id="btn-cerrar-quiz" onclick="sonarBoton(); cerrarQuiz()">Continuar</button>
+        </div>
+    </div>
+
+    <div id="overlay-gameover">
+        <img src="../static/media/gameover.png" alt="Game Over">
+        <button id="btn-reiniciar-gameover" onclick="volverAlInicio()">Volver a jugar</button>
+    </div>
+
+    <div id="overlay-llegaste">
+        <img src="../static/media/llegaste.png" alt="Llegaste">
+        <button id="btn-llegaste" onclick="sonarBoton(); window.location.href='juego.html'">Volver al inicio</button>
+    </div>
+
+    <audio id="musica" loop src="../static/media/ambiente.mp3"></audio>
+    <audio id="audio-boton" src="../static/media/boton.mp3"></audio>
+    <audio id="audio-normas" src="../static/media/lectura/normas.mp3"></audio>
+    <audio id="audio-pregunta" src=""></audio>
+    <audio id="audio-motor" src="../static/media/lectura/motor.mp3"></audio>
+    <audio id="audio-gameover" src="../static/media/lectura/game_over.mp3"></audio>
+    <audio id="audio-llegaste" src="../static/media/lectura/llegaste.mp3"></audio>
+
+    <script>
+        var vidas = 3;
+        var actual = 1;
+        var quizAbierto = 0;
+        var respondido = false;
+        var vozActiva = localStorage.getItem('voz') === 'activo';
+
+        var naves = [
+            '../static/media/nave0.png',
+            '../static/media/nave1.png',
+            '../static/media/nave2.png',
+            '../static/media/nave.png'
+        ];
+
+        var preguntas = [
+            { texto: "¿Qué es lo que hace que en la Tierra tengamos olas?", opciones: ["El Sol", "La Luna", "Venus"], correcta: 1 },
+            { texto: "¿Qué es lo que miden los años luz?", opciones: ["Intensidad lumínica", "Tiempo", "Distancia"], correcta: 2 },
+            { texto: "¿Qué planeta del sistema solar tiene más lunas?", opciones: ["Júpiter", "Venus", "Saturno"], correcta: 2 },
+            { texto: "¿Cuántas vueltas da la Tierra al Sol en 365 días?", opciones: ["91,25 vueltas", "1 vuelta", "3,65 vueltas"], correcta: 1 },
+            { texto: "¿Cómo se llama nuestra galaxia?", opciones: ["Vía Láctea", "Rotonda Láctea", "Doble sentido Lácteo"], correcta: 0 },
+            { texto: "¿Qué fenómeno empezó el universo?", opciones: ["Lil Wayne", "Big Ben", "Big Bang"], correcta: 2 }
+        ];
+
+        var musica = document.getElementById('musica');
+        var audioBoton = document.getElementById('audio-boton');
+        var audioPregunta = document.getElementById('audio-pregunta');
+        var audioMotor = document.getElementById('audio-motor');
+        var audioGameover = document.getElementById('audio-gameover');
+        var audioLlegaste = document.getElementById('audio-llegaste');
+        var audioNormas = document.getElementById('audio-normas');
+
+        function pararTodo() {
+            var audios = document.querySelectorAll('audio');
+            for (var i = 0; i < audios.length; i++) {
+                audios[i].pause();
+                audios[i].currentTime = 0;
+            }
+        }
+
+        function sonarBoton() {
+            if (localStorage.getItem('sonido') === 'activo') {
+                audioBoton.currentTime = 0;
+                audioBoton.play();
+            }
+        }
+
+        function voz(audio) {
+            if (!vozActiva) return;
+            audio.currentTime = 0;
+            audio.play();
+        }
+
+        window.onload = function() {
+            if (localStorage.getItem('daltonismo') === 'activo') {
+                document.getElementById('pantalla-tablero').classList.add('filtro-daltonismo');
+            }
+            if (localStorage.getItem('sonido') === 'activo') musica.play().catch(function() {});
+            voz(audioNormas);
+            actualizarTablero();
+        }
+
+        function actualizarNave() {
+            document.getElementById('nave-vidas').src = naves[vidas];
+        }
+
+        function actualizarTablero() {
+            for (var i = 1; i <= 6; i++) {
+                var pill = document.getElementById('pill-' + i);
+                if (i < actual) {
+                    pill.textContent = 'Completado';
+                    pill.className = 'pill completado';
+                } else if (i === actual) {
+                    pill.textContent = 'Entrar';
+                    pill.className = 'pill desbloqueado';
+                } else {
+                    pill.textContent = 'Bloqueado';
+                    pill.className = 'pill';
+                }
+            }
+            actualizarNave();
+        }
+
+        function abrirQuiz(num) {
+            if (num !== actual) return;
+            sonarBoton();
+            quizAbierto = num;
+            respondido = false;
+
+            var p = preguntas[num - 1];
+            document.getElementById('pregunta-texto').textContent = p.texto;
+            document.getElementById('mensaje-resultado').textContent = '';
+            document.getElementById('btn-cerrar-quiz').style.display = 'none';
+
+            var divOpciones = document.getElementById('opciones');
+            divOpciones.innerHTML = '';
+            for (var i = 0; i < p.opciones.length; i++) {
+                var btn = document.createElement('button');
+                btn.className = 'btn-opcion';
+                btn.textContent = p.opciones[i];
+                btn.setAttribute('data-indice', i);
+                btn.onclick = elegirOpcion;
+                divOpciones.appendChild(btn);
+            }
+
+            document.getElementById('overlay-quiz').style.display = 'flex';
+
+            if (vozActiva) {
+                audioPregunta.src = '../static/media/lectura/pregunta_' + num + '.mp3';
+                audioPregunta.load();
+                audioPregunta.play();
+            }
+        }
+
+        function elegirOpcion() {
+            if (respondido) return;
+            respondido = true;
+            sonarBoton();
+
+            var indice = parseInt(this.getAttribute('data-indice'));
+            var p = preguntas[quizAbierto - 1];
+            var botones = document.querySelectorAll('.btn-opcion');
+
+            if (indice === p.correcta) {
+                this.classList.add('correcto');
+                document.getElementById('mensaje-resultado').textContent = 'Correcto. Asteroide superado.';
+                actual++;
+
+                if (actual > 6) {
+                    setTimeout(function() {
+                        document.getElementById('overlay-quiz').style.display = 'none';
+                        document.getElementById('overlay-llegaste').style.display = 'block';
+                        voz(audioLlegaste);
+                        actualizarTablero();
+                    }, 1500);
+                    return;
+                }
+
+            } else {
+                this.classList.add('incorrecto');
+                botones[p.correcta].classList.add('correcto');
+                vidas--;
+                document.getElementById('mensaje-resultado').textContent = 'Incorrecto. Pierdes un propulsor.';
+                voz(audioMotor);
+                actualizarNave();
+
+                if (vidas <= 0) {
+                    setTimeout(function() {
+                        pararTodo();
+                        document.getElementById('overlay-quiz').style.display = 'none';
+                        document.getElementById('overlay-gameover').style.display = 'block';
+                        if (vozActiva) audioGameover.play();
+                    }, 1500);
+                    return;
+                }
+            }
+
+            document.getElementById('btn-cerrar-quiz').style.display = 'inline-block';
+        }
+
+        function cerrarQuiz() {
+            document.getElementById('overlay-quiz').style.display = 'none';
+            actualizarTablero();
+        }
+
+        function volverAlInicio() {
+            pararTodo();
+            window.location.href = 'juego.html';
+        }
+    </script>
+
+</body>
+</html>

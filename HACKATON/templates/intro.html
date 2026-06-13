@@ -3,48 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <title>Asteroid Belt Run - Historia</title>
-    <link rel="stylesheet" href="/static/intro.css">
+    <link rel="stylesheet" href="../static/intro.css">
 </head>
 <body>
 
     <div id="pantalla-intro" class="pantalla-historia">
 
-        <div id="texto1" class="texto-subiendo">
+        <div id="texto1">
             <p>Joel González, un astronauta de la flota intergaláctica de Núrbor, se ha quedado atrapado en un cinturón de asteroides. Ayúdalo a escapar.</p>
-            <p>Para evitar los asteroides deberás de contestar preguntas de su planeta natal, la antigua Tierra.</p>
-            <p>Pero, ves con cuidado, por cada error que cometas un propulsor de su nave explotará, y, si tres explotan, la nave quedará inservible.</p>
+            <p>Para evitar los asteroides deberás contestar preguntas de su planeta natal, la antigua Tierra.</p>
+            <p>Pero ve con cuidado, por cada error que cometas un propulsor de su nave explotará, y si tres explotan, la nave quedará inservible.</p>
         </div>
 
-        <div id="texto2" style="display: none; position: absolute; width: 70%; color: white; font-size: 22px; text-align: center; font-weight: bold; text-shadow: 2px 2px 5px black;">
-            <p>Ahora Joel aterrizará en el asteroide CP-1738, es el primero del cinturón.</p>
-            <p>Para avanzar, asegúrate de contestar bien las preguntas, o, dejarás a Joel sin sus motores en el espacio exterior.</p>
-            <button class="btn-ir-juego" onclick="window.location.href='/juego'">Jugar 🚀</button>
+        <div id="texto2">
+            <p>Ahora Joel aterrizará en el asteroide CP-1738, el primero del cinturón.</p>
+            <p>Para avanzar, asegúrate de contestar bien las preguntas, o dejarás a Joel sin motores en el espacio exterior.</p>
+            <button class="btn-ir-juego" id="btn-jugar" onclick="irAlTablero()">Jugar 🚀</button>
         </div>
 
     </div>
 
+    <audio id="musica" loop src="../static/media/ambiente.mp3"></audio>
+    <audio id="audio-boton" src="../static/media/boton.mp3"></audio>
+    <audio id="audio-intro1" src="../static/media/lectura/intro_1.mp3"></audio>
+    <audio id="audio-intro2" src="../static/media/lectura/intro_2.mp3"></audio>
+    <audio id="audio-jugar" src="../static/media/lectura/jugar.mp3"></audio>
+
     <script>
-        const fondo = document.getElementById('pantalla-intro');
+        var musica = document.getElementById('musica');
+        var audioBoton = document.getElementById('audio-boton');
+        var audioIntro1 = document.getElementById('audio-intro1');
+        var audioIntro2 = document.getElementById('audio-intro2');
+        var audioJugar = document.getElementById('audio-jugar');
+        var fondo = document.getElementById('pantalla-intro');
+        var t1 = document.getElementById('texto1');
+        var t2 = document.getElementById('texto2');
+
+        var vozActiva = localStorage.getItem('voz') === 'activo';
+
         if (localStorage.getItem('daltonismo') === 'activo') {
             fondo.classList.add('filtro-daltonismo');
+            t1.classList.add('color-daltonico');
+            t2.classList.add('color-daltonico');
         }
 
-        const t1 = document.getElementById('texto1');
-        const t2 = document.getElementById('texto2');
+        // Música de ambiente en todas las páginas
+        if (localStorage.getItem('sonido') === 'activo') {
+            musica.play().catch(function() {});
+        }
+
+        function sonarBoton() {
+            if (localStorage.getItem('sonido') === 'activo') {
+                audioBoton.currentTime = 0;
+                audioBoton.play();
+            }
+        }
+
+        function irAlTablero() {
+            sonarBoton();
+            setTimeout(function() { window.location.href = 'tablero.html'; }, 200);
+        }
+
+        // Control de cuándo ocultar texto1:
+        // espera a que pasen 18s Y a que el audio haya terminado (lo que tarde más)
+        var timerListo = false;
+        var audioListo = false;
+
+        function intentarCambio() {
+            if (timerListo && audioListo) {
+                t1.style.display = 'none';
+                setTimeout(function() {
+                    t2.style.display = 'block';
+                    if (vozActiva) {
+                        audioIntro2.play();
+                        audioIntro2.onended = function() {
+                            audioJugar.play();
+                        }
+                    }
+                }, 2000);
+            }
+        }
 
         setTimeout(function() {
-            t1.style.display = 'none';
+            timerListo = true;
+            intentarCambio();
+        }, 18000);
 
-            setTimeout(function() {
-                t2.style.display = 'block';
-                // Forzamos reflow para que la animación arranque desde cero
-                t2.style.animation = 'none';
-                t2.offsetHeight;
-                t2.style.top = '100%';
-                t2.style.animation = 'moverArriba 12s linear forwards';
-            }, 2000);
-
-        }, 12000);
+        if (vozActiva) {
+            audioIntro1.play().catch(function() {});
+            audioIntro1.onended = function() {
+                audioListo = true;
+                intentarCambio();
+            }
+        } else {
+            audioListo = true;
+        }
     </script>
+
 </body>
 </html>

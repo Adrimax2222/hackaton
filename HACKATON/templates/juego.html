@@ -3,59 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <title>Asteroid Belt Run - Menú</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
 
     <div id="pantalla-principal" class="pantalla-inicio">
 
-        <button class="btn btn-accesibilidad" id="abrir-menu">
-            ♿ Accesibilidad
-        </button>
-
-        <a href="/intro">
-            <button class="btn btn-empezar">
-                🚀 Empezar Misión
-            </button>
-        </a>
+        <button class="btn btn-accesibilidad" id="abrir-menu">Accesibilidad</button>
+        <button class="btn btn-empezar" onclick="irAIntro()">Empezar Misión</button>
 
         <div id="ventana-opciones">
             <div class="caja-menu">
                 <h3>Opciones</h3>
                 <hr>
                 <div class="fila">
-                    <label>🗣️ Sonido</label>
+                    <label>Música</label>
                     <input type="checkbox" id="opcion-sonido">
                 </div>
                 <div class="fila">
-                    <label>👁️ Daltonismo</label>
+                    <label>Leer en Voz Alta</label>
+                    <input type="checkbox" id="opcion-voz">
+                </div>
+                <div class="fila">
+                    <label>Daltonismo</label>
                     <input type="checkbox" id="opcion-daltonismo">
                 </div>
-                <button id="cerrar-menu" class="btn-cerrar">Guardar</button>
+                <button class="btn-cerrar" id="cerrar-menu">Guardar</button>
             </div>
         </div>
 
     </div>
 
-    <script>
-        const botonAbrir = document.getElementById('abrir-menu');
-        const botonCerrar = document.getElementById('cerrar-menu');
-        const ventana = document.getElementById('ventana-opciones');
-        const fondo = document.getElementById('pantalla-principal');
-        const checkDaltonismo = document.getElementById('opcion-daltonismo');
-        const checkSonido = document.getElementById('opcion-sonido');
+    <audio id="musica" loop src="../static/media/ambiente.mp3"></audio>
+    <audio id="audio-boton" src="../static/media/boton.mp3"></audio>
+    <audio id="audio-voz" src="../static/media/lectura/inicio.mp3"></audio>
 
+    <script>
+        var musica = document.getElementById('musica');
+        var audioBoton = document.getElementById('audio-boton');
+        var audioVoz = document.getElementById('audio-voz');
+        var fondo = document.getElementById('pantalla-principal');
+        var checkSonido = document.getElementById('opcion-sonido');
+        var checkVoz = document.getElementById('opcion-voz');
+        var checkDaltonismo = document.getElementById('opcion-daltonismo');
+
+        localStorage.setItem('voz', 'activo');
+        checkVoz.checked = true;
+
+        if (localStorage.getItem('sonido') === 'activo') checkSonido.checked = true;
         if (localStorage.getItem('daltonismo') === 'activo') {
             fondo.classList.add('filtro-daltonismo');
             checkDaltonismo.checked = true;
         }
 
-        botonAbrir.onclick = function() {
-            ventana.style.display = 'flex';
+        musica.play().catch(function() {});
+        audioVoz.play().catch(function() {});
+
+        document.body.addEventListener('click', function arrancar() {
+            if (localStorage.getItem('sonido') === 'activo') musica.play();
+            audioVoz.play();
+            document.body.removeEventListener('click', arrancar);
+        }, { once: true });
+
+        function sonarBoton() {
+            if (localStorage.getItem('sonido') === 'activo') {
+                audioBoton.currentTime = 0;
+                audioBoton.play();
+            }
         }
 
-        botonCerrar.onclick = function() {
-            ventana.style.display = 'none';
+        function irAIntro() {
+            sonarBoton();
+            setTimeout(function() { window.location.href = 'intro.html'; }, 200);
+        }
+
+        document.getElementById('abrir-menu').onclick = function() {
+            sonarBoton();
+            document.getElementById('ventana-opciones').style.display = 'flex';
+        }
+
+        document.getElementById('cerrar-menu').onclick = function() {
+            sonarBoton();
+            document.getElementById('ventana-opciones').style.display = 'none';
+        }
+
+        checkSonido.onchange = function() {
+            if (checkSonido.checked) {
+                localStorage.setItem('sonido', 'activo');
+                musica.play();
+            } else {
+                localStorage.setItem('sonido', 'inactivo');
+                musica.pause();
+                musica.currentTime = 0;
+            }
+        }
+
+        checkVoz.onchange = function() {
+            if (checkVoz.checked) {
+                localStorage.setItem('voz', 'activo');
+                audioVoz.currentTime = 0;
+                audioVoz.play();
+            } else {
+                localStorage.setItem('voz', 'inactivo');
+                audioVoz.pause();
+                audioVoz.currentTime = 0;
+            }
         }
 
         checkDaltonismo.onchange = function() {
@@ -67,14 +119,7 @@
                 localStorage.setItem('daltonismo', 'inactivo');
             }
         }
-
-        checkSonido.onchange = function() {
-            fetch('/guardar_tts', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ tts_activo: checkSonido.checked })
-            });
-        }
     </script>
+
 </body>
 </html>

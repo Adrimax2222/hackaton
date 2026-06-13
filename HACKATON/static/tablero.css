@@ -1,0 +1,266 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: sans-serif;
+    overflow: hidden;
+}
+
+.pantalla-tablero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-image: url('../static/media/tablero.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.asteroide {
+    position: absolute;
+    width: 120px;
+    height: 80px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.pill {
+    background-color: #DC4900;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 2px solid white;
+}
+
+.pill.desbloqueado {
+    background-color: #00aa44;
+}
+
+.pill.completado {
+    background-color: #555;
+}
+
+.num-asteroide {
+    color: white;
+    font-weight: bold;
+    font-size: 13px;
+    text-shadow: 1px 1px 3px black;
+    margin-bottom: 4px;
+}
+
+#a1 { top: 8%;  left: 14%; }
+#a2 { top: 18%; left: 36%; }
+#a3 { top: 14%; left: 56%; }
+#a4 { top: 34%; left: 82%; }
+#a5 { top: 58%; left: 58%; }
+#a6 { top: 62%; left: 34%; }
+
+/* Nave indicador de vidas */
+#nave-vidas {
+    position: absolute;
+    bottom: 80px;
+    right: 30px;
+    width: 100px;
+}
+
+#btn-continuar {
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+    background-color: #DC4900;
+    color: white;
+    border: 3px solid white;
+    padding: 12px 35px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    display: none;
+}
+
+#btn-continuar:hover {
+    background-color: #ff5500;
+}
+
+/* Quiz overlay */
+#overlay-quiz {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.caja-quiz {
+    background-color: #1a1a24;
+    border: 3px solid #DC4900;
+    border-radius: 20px;
+    padding: 40px;
+    width: 500px;
+    color: white;
+    text-align: center;
+}
+
+.caja-quiz h2 {
+    color: #DC4900;
+    margin-bottom: 25px;
+    font-size: 20px;
+}
+
+.btn-opcion {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 12px;
+    background-color: #2a2a3a;
+    color: white;
+    border: 2px solid #555;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-opcion:hover {
+    border-color: #DC4900;
+    background-color: #3a2a2a;
+}
+
+.btn-opcion.correcto {
+    background-color: #00aa44;
+    border-color: #00ff66;
+}
+
+.btn-opcion.incorrecto {
+    background-color: #aa0000;
+    border-color: #ff0000;
+}
+
+#mensaje-resultado {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    min-height: 30px;
+}
+
+#btn-cerrar-quiz {
+    margin-top: 20px;
+    background-color: #DC4900;
+    color: white;
+    border: 2px solid white;
+    padding: 10px 30px;
+    border-radius: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    display: none;
+}
+
+/* Game Over: imagen a pantalla completa */
+#overlay-gameover {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 200;
+    cursor: pointer;
+}
+
+#overlay-gameover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#btn-reiniciar-gameover {
+    position: absolute;
+    bottom: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #DC4900;
+    color: white;
+    border: 3px solid white;
+    padding: 14px 40px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+/* Victoria overlay */
+#overlay-victoria {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.9);
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+}
+
+.caja-victoria {
+    background-color: #1a1a24;
+    border: 3px solid #00aa44;
+    border-radius: 20px;
+    padding: 50px;
+    text-align: center;
+    color: white;
+}
+
+.caja-victoria h1 {
+    color: #00aa44;
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+#btn-victoria {
+    background-color: #00aa44;
+    color: white;
+    border: 2px solid white;
+    padding: 12px 35px;
+    font-size: 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.filtro-daltonismo {
+    filter: grayscale(30%) sepia(50%) hue-rotate(180deg);
+}
+
+/* Llegaste: imagen a pantalla completa con botón encima */
+#overlay-llegaste {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 200;
+}
+
+#overlay-llegaste img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#btn-llegaste {
+    position: absolute;
+    bottom: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #00aa44;
+    color: white;
+    border: 3px solid white;
+    padding: 14px 40px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+}

@@ -11,10 +11,9 @@ body, html {
     position: relative;
     width: 100%;
     height: 100vh;
-    background-image: url('/static/media/fondo.png');
+    background-image: url('../static/media/fondo.png');
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
 }
 
 .btn {
@@ -27,7 +26,6 @@ body, html {
 }
 
 .btn:hover {
-    transform: scale(1.05);
     background-color: #ff5500;
 }
 
@@ -54,7 +52,7 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0,0,0,0.7);
     justify-content: center;
     align-items: center;
     z-index: 100;
@@ -87,5 +85,5 @@ body, html {
 }
 
 .filtro-daltonismo {
-    filter: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><filter id="d"><feColorMatrix type="matrix" values="0.43, 0.72, -0.15, 0, 0  0.34, 0.57, 0.09, 0, 0  -0.02, 0.03, 1.00, 0, 0  0, 0, 0, 1, 0"/></filter></svg>#d') !important;
+    filter: grayscale(30%) sepia(50%) hue-rotate(180deg);
 }
