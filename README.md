@@ -2,6 +2,8 @@
 
 Juego educativo interactivo desarrollado para la **Hackathon Hack the Future 2026**, organizada por DEQ4Future, powered by Codelearn y con la colaboración del Ajuntament de Sabadell.
 
+Proyecto realizado por Adrià Navarro y Aleix Pascual.
+
 ---
 
 ## La historia
